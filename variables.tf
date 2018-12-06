@@ -1,0 +1,43 @@
+variable "enable-asg" {}
+variable "enable-service" {}
+variable "aws-region" {}
+variable "aws-account-id" {}
+variable "aws-ami-account-id" {}
+variable "name" {}
+variable "ami-ecs" {}
+variable "ami-vpn" {}
+variable "public_key" {}
+variable "slave_public_key" {}
+variable "vpc_cidr" {}
+variable "dns-public-zone-id" {}
+variable "dns-public-name" {}
+variable "dns-internal-name" {}
+variable "aws-log-bucket" {}
+variable "ssh-ip" {}
+variable "file-ssl-cert-body" {}
+variable "file-ssl-cert-chain" {}
+variable "file-ssl-cert-key" {}
+variable "bootstrap" {}
+variable "arn_path" {}
+variable "mount_point" {}
+variable "container_image" {}
+variable "instance_type" {}
+variable "instance_type_vpn" {}
+variable "env" {}
+variable "identifier" {}
+variable "ports" {
+  type = "map"
+}
+variable "datadog-api-key" {}
+variable "datadog-extra-config" {}
+variable "jenkins-java-opts" {}
+variable "dyn-iam-s3-bucket" {}
+variable "dyn-access-iam-group-name" {}
+variable "allow-source-git-pull-roles" {
+  type = "list"
+}
+variable "allow-vpn-git-pull-roles" {
+  type = "list"
+}
+variable "infrastructure_release" {}
+variable "vpn_cidr_block" {}
