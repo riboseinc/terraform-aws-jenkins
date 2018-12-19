@@ -12,7 +12,6 @@ variable "vpc_cidr" {}
 variable "dns-public-zone-id" {}
 variable "dns-public-name" {}
 variable "dns-internal-name" {}
-variable "aws-log-bucket" {}
 variable "ssh-ip" {}
 variable "file-ssl-cert-body" {}
 variable "file-ssl-cert-chain" {}

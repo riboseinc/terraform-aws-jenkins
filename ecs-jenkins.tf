@@ -20,8 +20,6 @@ module "ecs-jenkins" {
   enable-service = "${var.enable-service}"
   mount_point = "${var.mount_point}"
   container_image = "${var.container_image}"
-  iam-certificate-id = "${module.ecs.iam-certificate-id}"
   iam-certificate-arn = "${module.ecs.iam-certificate-arn}"
   ecs-scheduler-role-arn = "${module.ecs.ecs-scheduler-role-arn}"
-  ecs-cluster-id = "${module.ecs.ecs-cluster-id}"
 }
