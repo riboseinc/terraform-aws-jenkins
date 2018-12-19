@@ -1,0 +1,108 @@
+= Terraform module to setup Jenkins ECS task, Datadog ECS task, VPN server and related roles and policies
+
+This module helps you create Jenkins ECS  and related roles and policies, assuming that:
+
+* you have created a SSL certificate for internal ELB
+* you have created a SSH keys for Jenkins host and slave
+* you have created a bootstrap file
+* you have created a aws providers
+* you have created a EBS volume for mounting as Jenkins's home folder
+* you have created a DNS public zone
+* you have created a container image for Jenkins
+* you have created AMI for Jenkins ECS instance
+* you have created AMI for VPN server
+* you have created a Datadog account with API key
+* some other modules are used with this module, you may need to reference to those modules to check the usage of variables
+* and of course, your AWS account provides you access to all these resources necessary.
+
+== Sample Usage
+
+You can literally copy and paste the following example, change the following attributes, and you're ready to go:
+
+* `name` set it to the name of Jenkins (e.g., `jenkins`)
+* `arn_path` set it to the arn path to find Jenkins EBS volume
+
+For the rest of the variables, please refer to:
+
+* https://github.com/riboseinc/terraform-aws-ecs-datadog
+* https://github.com/riboseinc/terraform-aws-ecs-jenkins
+* https://github.com/riboseinc/terraform-aws-ecs-vpn
+
+[source,hcl]
+----
+# include this module and enter the values of input variables
+module "jenkins" {
+  source = "github.com/riboseinc/terraform-aws-jenkins"
+
+  providers = {
+    aws = "aws.default"
+  }
+
+  enable-asg = "${var.enable-asg}"
+  enable-service = "${var.enable-service}"
+  name = "${var.name}"
+  aws-region = "${var.aws-region}"
+  aws-account-id = "${var.aws-account-id}"
+  aws-ami-account-id = "${var.aws-ami-account-id}"
+  vpc_cidr = "${var.vpc_cidr}"
+  instance_type_vpn = "${var.instance_type_vpn}"
+  dns-public-zone-id = "${var.dns-public-zone-id}"
+  dns-public-name = "${var.dns-public-name}"
+  dns-internal-name = "${var.dns-internal-name}"
+  file-ssl-cert-body = "${file("${var.file-ssl-cert-body}")}"
+  file-ssl-cert-chain = "${file("${var.file-ssl-cert-chain}")}"
+  file-ssl-cert-key = "${file("${var.file-ssl-cert-key}")}"
+  bootstrap = "${file("${var.bootstrap_path}")}"
+  arn_path = "arn:aws:ec2:${var.aws-region}:${var.aws-account-id}"
+  mount_point = "${var.mount_point}"
+  container_image = "${var.container_image}"
+  instance_type = "${var.instance_type}"
+  env = "${var.env}"
+  identifier = "${var.identifier}"
+  ports = "${var.ports}"
+  ami-ecs = "${var.ami-ecs}"
+  ami-vpn = "${var.ami-vpn}"
+  public_key = "${file("${var.public_key_path}")}"
+  slave_public_key = "${file("${var.slave_public_key_path}")}"
+  datadog-api-key = "${var.datadog-api-key}"
+  datadog-extra-config = "${var.datadog-extra-config}"
+  ssh-ip = "${var.ssh-ip}"
+  jenkins-java-opts = "${var.jenkins-java-opts}"
+  dyn-iam-s3-bucket = "${var.dyn-iam-s3-bucket}"
+  dyn-access-iam-group-name = "${var.dyn-access-iam-group-name}"
+  allow-source-git-pull-roles = "${var.allow-source-git-pull-roles}"
+  allow-vpn-git-pull-roles = "${var.allow-vpn-git-pull-roles}"
+  infrastructure_release = "${var.infrastructure_release}"
+  vpn_cidr_block = "${var.vpn_cidr_block}"
+}
+
+variable "name" {
+  default = "jenkins"
+}
+
+variable "arn_path" {
+  default = "arn:aws:ec2:us-east-1:12345678"
+}
+
+variable "aws-account-id" {
+  default = "12345678"
+}
+
+provider "aws" {
+  region = "${var.aws-region}"
+  allowed_account_ids = [
+    "${var.aws-account-id}"
+  ]
+}
+
+provider "aws" {
+  region = "${var.aws-region}"
+  alias = "default"
+  allowed_account_ids = [
+    "${var.aws-account-id}"
+  ]
+}
+
+----
+
+
