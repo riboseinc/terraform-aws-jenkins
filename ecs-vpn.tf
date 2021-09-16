@@ -1,7 +1,6 @@
 module "ecs" {
   source = "github.com/riboseinc/terraform-aws-ecs-vpn"
 
-  enable-asg = "${var.enable-asg}"
   name = "${var.name}"
   aws-region = "${var.aws-region}"
   aws-ami-account-id = "${var.aws-ami-account-id}"
